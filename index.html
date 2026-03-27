@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathPoop Clone | Games</title>
+    <style>
+        /* Modern Dark Theme */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f0f;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: #1e1e1e;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .logo { font-size: 24px; font-weight: bold; color: #3b82f6; text-transform: uppercase; }
+
+        /* Game Grid Container */
+        .container {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            transition: opacity 0.3s;
+        }
+
+        /* Game Card Styling */
+        .card {
+            background: #252525;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #333;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: #333;
+        }
+
+        .card-info { padding: 15px; text-align: center; }
+
+        /* Fullscreen Game Overlay */
+        #game-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+        }
+
+        #game-frame {
+            width: 100%;
+            flex-grow: 1;
+            border: none;
+        }
+
+        .controls {
+            background: #1e1e1e;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+        }
+
+        .btn-back { background: #ef4444; }
+        .btn-back:hover { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+    <nav id="main-nav">
+        <div class="logo">MathPoop 2.0</div>
+        <div>Progress Auto-Saves</div>
+    </nav>
+
+    <div class="container" id="game-grid">
+        
+        <div class="card" onclick="launchGame('https://example.com/drive-mad-link')">
+            <img src="https://img.poki.com/cdn-cgi/image/quality=70,width=600,height=600,fit=cover,g=0.5x0.5,f=auto/96383b4d45866160e908975853245c7e.png" alt="Drive Mad">
+            <div class="card-info"><h3>Drive Mad</h3></div>
+        </div>
+
+        <div class="card" onclick="launchGame('https://example.com/paper-io-link')">
+            <img src="https://images.crazygames.com/paperio2b.png?auto=format,compress&q=75&cs=strip&ch=DPR&w=1200&h=630&fit=crop" alt="Paper.io">
+            <div class="card-info"><h3>Paper.io 2</h3></div>
+        </div>
+
+        </div>
+
+    <div id="game-overlay">
+        <div class="controls">
+            <button class="btn btn-back" onclick="closeGame()">← Exit Game</button>
+            <span style="margin-top: 8px;">Playing Game...</span>
+        </div>
+        <iframe id="game-frame" src="" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        const grid = document.getElementById('game-grid');
+        const nav = document.getElementById('main-nav');
+        const overlay = document.getElementById('game-overlay');
+        const frame = document.getElementById('game-frame');
+
+        /**
+         * Launches the game by showing the overlay and setting the iframe source.
+         * Browser 'localStorage' is shared as long as the games are on the same domain.
+         */
+        function launchGame(url) {
+            grid.style.display = 'none';
+            nav.style.display = 'none';
+            overlay.style.display = 'flex';
+            frame.src = url;
+            
+            // Focus the iframe so keys work immediately
+            frame.focus();
+        }
+
+        /**
+         * Closes the game and returns to the menu.
+         */
+        function closeGame() {
+            grid.style.display = 'grid';
+            nav.style.display = 'flex';
+            overlay.style.display = 'none';
+            frame.src = ""; // Stop the game sound/processing
+        }
+
+        // Quick tip: If you want to force save something manually, 
+        // you can use: localStorage.setItem('lastPlayed', 'Drive Mad');
+    </script>
+</body>
+</html>
